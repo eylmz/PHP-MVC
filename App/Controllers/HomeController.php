@@ -1,0 +1,19 @@
+<?php
+    Class HomeController extends Controller{
+        function __construct(){
+            Session::Start();
+            parent::__construct();
+			
+			$opt = ["siteUrl"=>$this->settings["siteUrl"]];
+			$this->loadView("header",$opt);
+        }
+
+        function index(){
+            echo ' Anasayfa ';
+        }
+		
+		function __destruct(){
+			$opt = ["siteUrl"=>$this->settings["siteUrl"]];
+			$this->loadView("footer",$opt);
+		}
+    }

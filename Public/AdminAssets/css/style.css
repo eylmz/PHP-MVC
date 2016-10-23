@@ -1,0 +1,13 @@
+body{
+	margin: 0;
+	padding: 0;
+	background: #eee;
+}
+
+.cont{
+	width: 450px;
+	margin: 0 auto;
+	margin-top:0px;
+}
+
+#passstrength{color:red; margin-top:5px; display:block}
