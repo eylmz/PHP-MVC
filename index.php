@@ -5,5 +5,5 @@
     require "Core/Autoload.php";
 
     new Router();
-	
-	deneme
+
+    echo 'deneme';
