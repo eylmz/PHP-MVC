@@ -1,0 +1,20 @@
+{
+    "name": "eylmz/wd-mvc",
+    "type": "project",
+    "description": "PHP WD MVC Framework",
+    "keywords": ["php", "wd","mvc","mini","framework"],
+    "homepage": "https://github.com/eylmz058/PHP-MVC",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Emre YILMAZ",
+            "email": "eylmz058@gmail.com",
+            "homepage": "http://emre.pw",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "windwalker/edge": "~3.0",
+        "catfan/Medoo": "^1.2"
+    }
+}
