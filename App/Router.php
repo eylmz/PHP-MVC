@@ -1,9 +1,12 @@
 <?php
-    Route::get("deneme/{id}/{method?}/{deneme}","{?}@{?}")
-        ->where("id","[0-9a-zA-Z]+")
-        ->where("method","[0-9a-zA-Z]+")
-        ->name("emre");
+    NewRoute::get("deneme/emre",function(){
+        echo 'deneme';
+    });
 
-    Route::get("/",function($deneme="emre"){
+    NewRoute::get("deneme/emre/yilmaz",function(){
+        echo 'deneme 2';
+    });
+
+    NewRoute::get("/",function($deneme="emre"){
         return ["deneme"=>["asdasd"=>"sa","merhaba"=>"as"],"asdasd"=>"merhaba"];
     });
