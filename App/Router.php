@@ -1,12 +1,12 @@
 <?php
-    NewRoute::get("deneme/emre",function(){
-        echo 'deneme';
-    });
+    Route::get("deneme/emre/{selam?}/emre-{deneme?}/{hahaha}","{?}@{?}")
+        ->where("deneme","[a-z]+")
+        ->where("selam","[a-z]+");
 
-    NewRoute::get("deneme/emre/yilmaz",function(){
+    Route::get("deneme/emre/yilmaz",function(){
         echo 'deneme 2';
     });
 
-    NewRoute::get("/",function($deneme="emre"){
+    Route::get("/",function($deneme="emre"){
         return ["deneme"=>["asdasd"=>"sa","merhaba"=>"as"],"asdasd"=>"merhaba"];
     });

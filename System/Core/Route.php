@@ -9,65 +9,29 @@
         private static $instance;
 
         private function __construct(){}
+
         static function routeNow(){
-            $genericUrls = "";
-            if( isset($_GET["url"]) )
-                $genericUrls = @trim($_GET["url"],"/");
+            $genericUrls = explode("?",$_SERVER["REQUEST_URI"]);
+            $genericUrls = trim($genericUrls[0],"/");
 
-            $genericUrls = explode("/",$genericUrls);
             foreach(self::$url as $rID => $rUrl){
-                $parameters = [];
-                $err = 0;
-                $url = explode("/",$rUrl);
-
-                foreach($genericUrls as $id => $genericUrl){
-                    if(isset($url[$id])) {
-
-                        if (preg_match("@{([0-9a-zA-Z?]+)}@", $url[$id], $name)) {
-                            $name = $name[1];
-                            //echo $url[$id]." -> ";
-                            if ($name[strlen($name) - 1] != '?') {
-                                if( isset(self::$where[$rID][$name]) && self::$where[$rID][$name] != null) {
-                                    if (preg_match("@^(" . self::$where[$rID][$name] . ")$@", $genericUrl, $parameter)) {
-                                        //echo 'Opsiyonel olmayan koşullu yer doğru - ';
-                                        $parameters[] = $parameter[1];
-                                    } else {
-                                        //echo 'Opsiyonel olmayan koşullu yer yanlış - ';
-                                        $err = 1;
-                                        break;
-                                    }
-                                }else{
-                                    //echo 'Opsiyonel olmayan koşulsuz yer doğru - ';
-                                    $parameters[] = $genericUrl;
-                                }
-                            } else {
-                                $name = substr($name,0,strlen($name) - 1 );
-                                $where = ".*?";
-                                if(isset(self::$where[$rID][$name]))
-                                    $where = self::$where[$rID][$name];
-                                if (!preg_match("@^(" . $where  . ")$@", $genericUrl, $parameter) && $genericUrl != "" && $genericUrl != null) {
-                                   // echo 'Opsiyonel yer yanlış - ';
-                                    $err = 1;
-                                    break;
-                                }else {
-                                    if(isset($parameter[1]))
-                                        $parameters[] = $parameter[1];
-
-                                    //echo 'Opsiyonel yer doğru - ';
-                                }
-                            }
-                        } else {
-                            if ($genericUrl != $url[$id]) {
-                               // echo 'Sabit yer yanlış - ';
-                                $err = 1;
-                                break;
-                            }//else echo 'Sabit yer doğru - ';
-                        }
+                if(count(self::$where[$rID])){
+                    foreach(self::$where[$rID] as $key=>$value){
+                        $rUrl = preg_replace("@{".$key."}@","(".$value.")",$rUrl);
+                        $rUrl = preg_replace("@{".$key."\?}@","(".$value."|)",$rUrl);
                     }
-
                 }
 
-                if($err == 0  && $_SERVER['REQUEST_METHOD'] == self::$method[$rID]){
+                $rUrl = preg_replace("@{([0-9a-zA-Z]+)}@","(.*?)",$rUrl);
+                $rUrl = preg_replace("@{([0-9a-zA-Z]+)\?}@","(.*?|)",$rUrl);
+
+                if(!preg_match("@^".$rUrl."$@ies",$genericUrls,$return))
+                    continue;
+
+                unset($return[0]);
+                $parameters = array_values($return);
+
+                if($_SERVER['REQUEST_METHOD'] == self::$method[$rID]){
                     if(is_string(self::$function[$rID])) {
                         if(preg_match("/([{?}a-zA-Z0-9]+)@([{?}a-zA-Z0-9]+)/",self::$function[$rID],$result)){
                             if(isset($result[1]) && isset($result[2])) {
@@ -106,9 +70,6 @@
                     }
                     break;
                 }
-
-
-
             }
         }
 

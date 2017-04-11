@@ -6,4 +6,4 @@
     require "vendor/autoload.php";
     require "App/Router.php";
 
-    NewRoute::routeNow();
+    Route::routeNow();
