@@ -21,7 +21,7 @@
 
             if(file_exists($fileName))
                 require $fileName;
-            else die("Bulunamadı");
+            else die("'<b>{$fileName}</b>' dosyası bulunamadı!");
         }
     }
 

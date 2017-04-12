@@ -1,7 +1,7 @@
 # PHP-MVC
 PHP-MVC, basit ve küçük çapta olan projeler için bir php web çatısıdır. SEO uyumlu linkleri destekler.
 
-#### Sürüm : 0.0.1
+#### Sürüm : 0.0.2
 ## Özellikler
 - MVC tasarım deseni yapısında.
 - Basit ve kullanımı kolay.
