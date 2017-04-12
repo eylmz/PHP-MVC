@@ -12,7 +12,7 @@
 
         static function routeNow(){
             $genericUrls = explode("?",$_SERVER["REQUEST_URI"]);
-            $genericUrls = trim($genericUrls[0],"/");
+            $genericUrls = ltrim($genericUrls[0],"/");
 
             foreach(self::$url as $rID => $rUrl){
                 if(count(self::$where[$rID])){
@@ -25,11 +25,21 @@
                 $rUrl = preg_replace("@{([0-9a-zA-Z]+)}@","(.*?)",$rUrl);
                 $rUrl = preg_replace("@{([0-9a-zA-Z]+)\?}@","(.*?|)",$rUrl);
 
-                if(!preg_match("@^".$rUrl."$@ies",$genericUrls,$return))
+                $rUrl = preg_replace("@{/}@","(/?)",$rUrl);
+
+                if(!preg_match("@^".$rUrl."$@",$genericUrls,$return))
                     continue;
 
                 unset($return[0]);
                 $parameters = array_values($return);
+
+                for($i = count($parameters); $i > 0 ;$i--){
+                    if(isset($parameters[$i]) && ( $parameters[$i]=="/" || !$parameters[$i])) {
+                        unset($parameters[$i]);
+                    }
+                }
+                $parameters = array_values($parameters);
+
 
                 if($_SERVER['REQUEST_METHOD'] == self::$method[$rID]){
                     if(is_string(self::$function[$rID])) {
@@ -121,26 +131,24 @@
         static function route($name,$parameters=null){
             $id = array_search($name,self::$name);
             if($id !== false) {
-                $urls = explode("/",self::$url[$id]);
-                $rUrl = "";
-
-                if(count($urls) > 0){
-                    foreach($urls as $url){
-                        if(preg_match("@{([0-9a-zA-Z?]+)}@",$url,$param)){
-                            $param = $param[1];
-                            if( $param[ strlen($param) - 1] == '?'){
-                                $param = substr($param,0,strlen($param) - 1);
-                                if(isset($parameters[$param]))
-                                    $rUrl .= $parameters[$param]."/";
-                            }else{
-                                if(isset($parameters[$param])){
-                                    $rUrl .= $parameters[$param]."/";
-                                }else return false;
-                            }
-                        }else $rUrl .= $url . "/";
+                $url = self::$url[$id];
+                if(count($parameters)) {
+                    foreach ($parameters as $key => $value) {
+                        $url = preg_replace("@{" . $key . "}@", $value, $url);
+                        $url = preg_replace("@{" . $key . "\?}@", $value, $url);
                     }
-                    return trim($rUrl,"/");
-                }else return "";
+                }
+                $url = preg_replace("@{/}@","/",$url);
+                $url = preg_replace("@{([0-9a-zA-Z]+)\?}@","",$url);
+
+                if(!preg_match_all("@{(.*?)}@",$url,$matches))
+                    return $url;
+                else{
+                    $str = "Eksik Parametre : ";
+                    foreach ($matches[1] as $id=>$match)
+                        $str .= ($id != 0?', ':null).$match;
+                    return $str;
+                }
             }
         }
     }

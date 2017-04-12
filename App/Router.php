@@ -1,7 +1,10 @@
 <?php
-    Route::get("deneme/emre/{selam?}/emre-{deneme?}/{hahaha}","{?}@{?}")
-        ->where("deneme","[a-z]+")
-        ->where("selam","[a-z]+");
+    $ana = Route::get("haber/{baslik}-{id}{/}{sayfa?}",function($var,$id,$sayfa=2){
+        var_dump(Route::route("ana",["baslik"=>"test"]));
+    })->name("ana");
+    $ana->where("baslik","[a-zA-Z0-9-]+");
+    $ana->where("id","[0-9]+");
+    $ana->where("sayfa","[0-9]+");
 
     Route::get("deneme/emre/yilmaz",function(){
         echo 'deneme 2';
