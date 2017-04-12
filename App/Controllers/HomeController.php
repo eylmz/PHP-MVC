@@ -1,4 +1,9 @@
 <?php
+    namespace App\Controllers;
+
+    use System\Core\Controller;
+    use System\Helpers\Session;
+
     Class HomeController extends Controller
     {
         function __construct()
@@ -7,7 +12,7 @@
             //$this->loadView("header");
         }
 
-        function index($deneme){
+        function index(){
             $this->loadTemplate("test");
         }
 

@@ -15,7 +15,7 @@ PHP-MVC, basit ve küçük çapta olan projeler için bir php web çatısıdır.
 composer create-project eylmz/wd-mvc wd-mvc
 ```
 ## Dizin Yapısı
-```
+``` 
 PHP-MVC
 |   .htaccess
 |   index.php

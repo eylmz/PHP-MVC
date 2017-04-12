@@ -1,4 +1,8 @@
 <?php
+    namespace System\Core;
+
+    use System\Helpers\Template;
+
     abstract class Controller{
         function loadView($fileName,$data=array(),$returnHTML=false){
             $fileName = "App/Views/".$fileName.".php";

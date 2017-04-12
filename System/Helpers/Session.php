@@ -1,4 +1,6 @@
 <?php
+    namespace System\Helpers;
+
     class Session{
         public static function Start(){
             session_start();

@@ -1,11 +1,10 @@
 <?php
-    Class TestModel extends Model{		
+    namespace App\Models;
+    use System\Core\Model;
+
+    class TestModel extends Model{
 		function selectUser($userID){
-			$user = $this->db->get("uyeler","*",["uyeID"=>$userID]);
-			if($user){
-				return $user;
-			}
-			return false;
+			var_dump($userID);
 		}
 	}
 ?>

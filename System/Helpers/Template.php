@@ -1,4 +1,6 @@
 <?php
+    namespace System\Helpers;
+
     use Windwalker\Edge\Edge;
     use Windwalker\Edge\Loader\EdgeFileLoader;
 

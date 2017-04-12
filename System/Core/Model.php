@@ -1,5 +1,9 @@
 <?php
+    namespace System\Core;
+
     use Medoo\Medoo;
+    use System\Plugins\Setting;
+
     abstract Class Model{
         protected $db;
 

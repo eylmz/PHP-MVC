@@ -1,4 +1,6 @@
 <?php
+    namespace System\Core;
+
     class Route{
         private static $name = [];
         private static $url = [];
@@ -64,6 +66,10 @@
                                     }else die("Method parametresi bulunamadi!");
                                 }
                                 $parameters = array_values($parameters);
+
+                                $controller = ("App\\Controllers\\".$controller);
+
+
 
                                 if (class_exists($controller)) {
                                     if (method_exists($controller, $method)) {
