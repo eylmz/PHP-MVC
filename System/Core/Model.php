@@ -13,19 +13,23 @@
         {
             if ( self::$connection ) return self::$connection;
 
-            $setting = new Setting("Database");
-            $db = $setting->get();
+            $db = [
+                "database_type" => DB_CONNECTION,
+                "database_name" => DB_DATABASE,
+                "server" => DB_SERVER,
+                "port" => DB_PORT,
+                "username" => DB_USERNAME,
+                "password" => DB_PASSWORD,
+                "charset" >= DB_CHARSET
+            ];
 
-            if($db["database_name"] && $db["server"] && $db["username"])
+            try
             {
-                try
-                {
-                    return self::$connection = new Medoo($db);
-                }
-                catch( Exception $e )
-                {
-                    exit($e->getMessage());
-                }
+                return self::$connection = new Medoo($db);
+            }
+            catch( Exception $e )
+            {
+                exit($e->getMessage());
             }
         }
 
@@ -39,6 +43,6 @@
         }
 
         public function lastQuery(){
-            return $this->db->last_query();
+            return $this->db->last();
         }
     }

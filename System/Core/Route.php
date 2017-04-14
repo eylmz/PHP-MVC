@@ -43,33 +43,51 @@
                 $parameters = array_values($parameters);
 
 
-                if($_SERVER['REQUEST_METHOD'] == self::$method[$rID]){
+                if($_SERVER['REQUEST_METHOD'] == self::$method[$rID] || self::$method[$rID] == "ANY"){
                     if(is_string(self::$function[$rID])) {
-                        if(preg_match("/([{?}a-zA-Z0-9]+)@([{?}a-zA-Z0-9]+)/",self::$function[$rID],$result)){
+                        if(preg_match("/^([{?}a-zA-Z0-9]+)@([{?}a-zA-Z0-9]+)$/",self::$function[$rID],$result)){
                             if(isset($result[1]) && isset($result[2])) {
                                 $controller = $result[1];
-                                if($controller == "{?}"){
-                                    if(isset($parameters[0])){
-                                        $controller = ucfirst( strtolower( $parameters[0] ) );
+
+                                $unset = [];
+
+                                if ($controller == "{?}") {
+                                    if (isset($parameters[0])) {
+                                        $controller = ucfirst(strtolower($parameters[0]));
                                         unset($parameters[0]);
-                                    }else die("Controller parametresi bulunamadi!");
+                                    } else die("Controller parametresi bulunamadi!");
+                                } else if (preg_match("@{([0-9]+)}@", $controller, $cont)) {
+                                    if (isset($parameters[$cont[1]])) {
+                                        $controller = ucfirst(strtolower($parameters[$cont[1]]));
+                                        $unset[] = $cont[1];
+                                    } else die("Controller parametresi bulunamadi!");
                                 }
                                 $parameters = array_values($parameters);
                                 $controller .= "Controller";
 
                                 $method = $result[2];
 
-                                if($method == "{?}"){
-                                    if(isset($parameters[0])){
-                                        $method = strtolower( $parameters[0] );
+                                if ($method == "{?}") {
+                                    if (isset($parameters[0])) {
+                                        $method = strtolower($parameters[0]);
                                         unset($parameters[0]);
-                                    }else die("Method parametresi bulunamadi!");
+                                    } else die("Method parametresi bulunamadi!");
+                                } else if (preg_match("@{([0-9]+)}@", $method, $meth)) {
+                                    if (isset($parameters[$meth[1]])) {
+                                        $method = ucfirst(strtolower($parameters[$meth[1]]));
+                                        $unset[] = $meth[1];
+                                    } else die("Method parametresi bulunamadi!");
                                 }
+
+                                if (count($unset)) {
+                                    foreach ($unset as $un) {
+                                        unset($parameters[$un]);
+                                    }
+                                }
+
                                 $parameters = array_values($parameters);
 
                                 $controller = ("App\\Controllers\\".$controller);
-
-
 
                                 if (class_exists($controller)) {
                                     if (method_exists($controller, $method)) {
@@ -93,6 +111,18 @@
             if(self::$instance == null)
                 self::$instance = new self;
             return self::$instance;
+        }
+
+        static function any($method, $function){
+            $instance = self::getInstance();
+
+            self::$name[] = "";
+            self::$url[] = trim($method,"/");
+            self::$function[] = $function;
+            self::$method[] = "ANY";
+            self::$where[] = null;
+
+            return $instance;
         }
 
         static function get($method, $function){

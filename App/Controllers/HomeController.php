@@ -1,23 +1,15 @@
 <?php
     namespace App\Controllers;
 
-    use System\Core\Controller;
+    use App\Core\MyController;
     use System\Helpers\Session;
 
-    Class HomeController extends Controller
+    Class HomeController extends MyController
     {
-        function __construct()
-        {
-            Session::Start();
-            //$this->loadView("header");
-        }
-
         function index(){
-            $this->loadTemplate("test");
-        }
+            $this->loadTemplate("test",["deneme"=>"emre"]);
 
-        function __destruct()
-        {
-            //$this->loadView("footer");
+
+            $this->loadView("index");
         }
     }

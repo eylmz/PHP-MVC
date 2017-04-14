@@ -1,1 +1,1 @@
-merhaba
+merhaba {{$deneme}}<br>

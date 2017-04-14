@@ -1,15 +1,16 @@
 <?php
     use System\Core\Route;
+    /*
+        $ana = Route::get("{baslik}/{controller}/{method}",function($var,$controller,$method){
+            $controller = "App\\Controllers\\".$controller;
+            $controller = new $controller();
+            call_user_func_array([$controller,$method],[]);
+        })->name("ana");
+        $ana->where("baslik","[a-zA-Z0-9-]+");
+    */
 
-    $ana = Route::get("haber/{baslik}-{id}{/}{sayfa?}",function($var,$id,$sayfa=2){
-        //var_dump(Route::route("ana",["baslik"=>"test"]));
-    })->name("ana");
-    $ana->where("baslik","[a-zA-Z0-9-]+");
-    $ana->where("id","[0-9]+");
-    $ana->where("sayfa","[0-9]+");
+    Route::get("{controller}/{method}/{baslik}","{1}@{2}");
 
-    Route::get("deneme/emre/yilmaz","Home@index");
+    Route::any("",function(){
 
-    Route::get("/",function($deneme="emre"){
-        return ["deneme"=>["asdasd"=>"sa","merhaba"=>"as"],"asdasd"=>"merhaba"];
     });
