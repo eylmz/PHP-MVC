@@ -1,5 +1,7 @@
 <?php
     define("APP_URL", "http://localhost/");
+    define("PUBLIC_URL", APP_URL."Public/");
+
     define("ENVIRONMENT", "development"); // development or production
 
     define("BASE_DIR",'/');
@@ -14,4 +16,4 @@
     define("DB_DATABASE", "mvc");
     define("DB_USERNAME", "root");
     define("DB_PASSWORD", "");
-    define("DB_CHARSET", "utf-8");
+    define("DB_CHARSET", "utf8");

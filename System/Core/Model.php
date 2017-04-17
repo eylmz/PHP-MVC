@@ -14,7 +14,7 @@
             $db = [
                 "database_type" => DB_CONNECTION,
                 "database_name" => DB_DATABASE,
-                "server" => DB_SERVER,
+                "server" => DB_HOST,
                 "port" => DB_PORT,
                 "username" => DB_USERNAME,
                 "password" => DB_PASSWORD,
