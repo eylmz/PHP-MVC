@@ -45,7 +45,7 @@
 
                 if($_SERVER['REQUEST_METHOD'] == self::$method[$rID] || self::$method[$rID] == "ANY"){
                     if(is_string(self::$function[$rID])) {
-                        if(preg_match("/^([{?}a-zA-Z0-9]+)@([{?}a-zA-Z0-9]+)$/",self::$function[$rID],$result)){
+                        if(preg_match("/^([{?}a-zA-Z0-9.]+)@([{?}a-zA-Z0-9]+)$/",self::$function[$rID],$result)){
                             if(isset($result[1]) && isset($result[2])) {
                                 $controller = $result[1];
 
@@ -74,7 +74,7 @@
                                     } else die("Method parametresi bulunamadi!");
                                 } else if (preg_match("@{([0-9]+)}@", $method, $meth)) {
                                     if (isset($parameters[$meth[1]])) {
-                                        $method = ucfirst(strtolower($parameters[$meth[1]]));
+                                        $method = strtolower($parameters[$meth[1]]);
                                         $unset[] = $meth[1];
                                     } else die("Method parametresi bulunamadi!");
                                 }
@@ -86,6 +86,10 @@
                                 }
 
                                 $parameters = array_values($parameters);
+
+                                $controller = explode(".",$controller);
+                                $controller = array_map("ucfirst",$controller);
+                                $controller = implode("\\",$controller);
 
                                 $controller = ("App\\Controllers\\".$controller);
 

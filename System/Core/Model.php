@@ -2,14 +2,12 @@
     namespace System\Core;
 
     use Medoo\Medoo;
-    use System\Plugins\Setting;
 
     abstract Class Model{
         protected $db;
+        private static $connection;
 
-        protected static $connection;
-
-        final protected function connect()
+        final private function connect()
         {
             if ( self::$connection ) return self::$connection;
 

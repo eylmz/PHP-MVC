@@ -9,8 +9,8 @@
         $ana->where("baslik","[a-zA-Z0-9-]+");
     */
 
-    Route::get("{controller}/{method}/{baslik}","{1}@{2}");
+    Route::any("iletisim{/}","Home@index");
 
-    Route::any("",function(){
+    Route::get("deneme/{method}/{baslik}","{1}@{2}");
 
-    });
+    Route::any("","Home@index");

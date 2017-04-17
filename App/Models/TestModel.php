@@ -4,7 +4,7 @@
 
     class TestModel extends Model{
 		function selectUser($userID){
-			var_dump($userID);
-		}
+		    return $userID;
+        }
 	}
 ?>

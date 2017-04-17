@@ -7,7 +7,7 @@
     Class HomeController extends MyController
     {
         function index(){
-            $this->loadTemplate("test",["deneme"=>"emre"]);
+            $this->loadTemplate("test",["deneme"=>"<b>Emre</b>"]);
 
 
             $this->loadView("index");
