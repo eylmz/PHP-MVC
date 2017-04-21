@@ -13,7 +13,7 @@
         private function __construct(){}
 
         static function routeNow(){
-            $genericUrls = explode("?",$_SERVER["REQUEST_URI"]);
+            $genericUrls = explode("?",urldecode($_SERVER["REQUEST_URI"]));
             $genericUrls = ltrim($genericUrls[0],"/");
 
             foreach(self::$url as $rID => $rUrl){
