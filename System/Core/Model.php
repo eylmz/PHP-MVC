@@ -18,7 +18,7 @@
                 "port" => DB_PORT,
                 "username" => DB_USERNAME,
                 "password" => DB_PASSWORD,
-                "charset" >= DB_CHARSET
+                "charset" => DB_CHARSET
             ];
 
             try
